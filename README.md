@@ -28,15 +28,15 @@ https://ubuntu.com/download/server
 - To do this, use this command sudo nano /etc/netplan/00-installer-config.yaml
 - Add your network configuration as the example bellow:
 ------------------------------------------------------------------------------------------
-#This is the network config written by 'subiquity'
-network:
-  ethernets:
-    ens33:
-      addresses: [192.168.0.15/24]
-      gateway4: 192.168.0.1
-      nameservers:
-        addresses: [8.8.8.8]
-    ens38:
-      addresses: [10.0.0.250/24]
-  version: 2
+--#This is the network config written by 'subiquity'
+-network:
+- ethernets:
+-    ens33:
+-      addresses: [192.168.0.15/24]
+-      gateway4: 192.168.0.1
+-      nameservers:
+-        addresses: [8.8.8.8]
+-    ens38:
+-      addresses: [10.0.0.250/24]
+-  version: 2
 ---------------------------------------------------------------------------------------------
