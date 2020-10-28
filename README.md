@@ -5,10 +5,17 @@ Note: This installation was done on VMWare, But the configuration files will wor
 ## Description
 This is a lab enviroment done in VMWare to deploy services on a ubuntu server.
  This server will provide DNS resolution for the clients, DHCP, Firewall (ufw) rules, NAT and Caching for clients.
-On this eniroment there are two machines, the server and a client machine (in this case Ubuntu desktop). The objective install and configurer all of thi server on one server.
+On this environment there are two machines, the server and a client machine (in this case Ubuntu desktop). The objective install and configurer all of this services in one server.
 
 - There are two NIC on the server, ens38 with the ip addresess 192.168.0.15/24 (External Network)
 - ens33 with the ip address of 10.0.0.250/24 (Internal Network)
+
+## Requirements
+
+-Ubuntu Server 20.04
+-Ubuntu Desktop 20.04
+
+-The server needs to have two NIC cards attached.
 
 ### Intalation of Server
 
@@ -22,13 +29,14 @@ https://ubuntu.com/download/server
 - Create an account to access ubuntu server
 - Install SSH service right on the installation page
 - Note: Remember to add two NIC cards for this VM. One will be a external network and the other the internal network 
-
+- For the internal network you will have to go on the VM Settings on both Server and Client, choose the NIC that will be used on the internal network and set to Custom and then specify a "VMnet" (You can choose any, as long as both server and client have the same VMnet custom network on the internal NIC)
+- External Nic on the Server is set to Bridged
 - When the system boot up remember to update & upgrade
 ```
 sudo apt update
 sudo apt upgrade
-
 ```
+- Go ahead and also Install the client VM at this point.
 
 ### 3. Network
 - It is a good idea to set up a static ip address to be able to access the server though ssh.
@@ -48,11 +56,24 @@ network:
       addresses: [10.0.0.250/24]
   version: 2
   ```
-After configuring the netplan you must appy this configuration with:
+After configuring the netplan you must save this configuration (Ctrl-X and save) then apply with the following command:
 ```
 sudo netplan apply
-
 ```
+After that you can check if it's working by first checking the network connections and then ping google.com to verify that you can reach the internet.
+```
+ip a
+
+ping google.com
+```
+If you have a response you're good to go.
+
+Note: You can test you internal connection by statically assigning an IP address on the 10.0.0.0/24 range just for the purpose of testing their connections. After you verified that both machines can ping and are on the same network, leave the network configuration on automatic.
+
+## DNS
+
+At this point you can already install your Client VM, on this case Ubuntu Desktop;
+
 
 
 
