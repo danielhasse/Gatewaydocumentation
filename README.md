@@ -23,6 +23,13 @@ https://ubuntu.com/download/server
 - Install SSH service right on the installation page
 - Note: Remember to add two NIC cards for this VM. One will be a external network and the other the internal network 
 
+- When the system boot up remember to update & upgrade
+```
+sudo apt update
+sudo apt upgrade
+
+```
+
 ### 3. Network
 - It is a good idea to set up a static ip address to be able to access the server though ssh.
 - To do this, use this command sudo nano /etc/netplan/00-installer-config.yaml
@@ -41,5 +48,12 @@ network:
       addresses: [10.0.0.250/24]
   version: 2
   ```
+After configuring the netplan you must appy this configuration with:
+```
+sudo netplan apply
+
+```
+
+
 
 
