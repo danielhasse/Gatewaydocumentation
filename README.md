@@ -72,7 +72,21 @@ Note: You can test you internal connection by statically assigning an IP address
 
 ## DNS
 
-At this point you can already install your Client VM, on this case Ubuntu Desktop;
+To install DNS on the server you can type the following command:
+
+```
+sudo apt install bind9 dnsutils
+```
+#### To check the status of the service
+```
+sudo systemctl status named
+```
+#### To activate and deactivate the service
+```
+sudo systemctl start named
+sudo systemctl stop named
+```
+Go to the config files to 
 
 
 
