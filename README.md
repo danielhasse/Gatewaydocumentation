@@ -315,9 +315,42 @@ Then check the status with:
 ```
 sudo systemctl status squid
 ```
-If everything is correct now you have a server with DNS, DCHP, Firewall rules, NAT and proxy for your clients.
+### Rerouting HTTP trafic to squid
 
-All of the examples files are attached to thios repo.
+You can set all your traffic to be forwarded to squid, doing this way there is no need of configuring clients accessing the web.
+
+Once again you will need to go to /etc/ufw/before.rules and add a PREROUTING rule.
+```
+*nat
+:PREROUTING ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+#portforwarding
+-A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.250:8888
+#Forward trafiic from ens38 through ens33
+-A POSTROUTING -s 10.0.0.0/24 -o ens33 -j MASQUERADE
+
+COMMIT
+```
+The next step is allowing forwarding, so go to:
+```
+sudo nano /etc/sysctl.conf
+```
+and uncomment "net.ipv4.ip_forward=1"
+```
+net.ipv4.ip_forward=1
+```
+Apply the change with:
+```
+sudo sysctl -p
+```
+now restart the UFW
+```
+sudo systemctl restart ufw
+```
+
+If everything is correct now you have a server with DNS, DCHP, Firewall rules, NAT and transparent proxy for your clients.
+
+All of the examples files are attached to this repo.
 
 _Thannk you!_
 
