@@ -32,7 +32,7 @@ sudo apt upgrade
 ```
 - Go ahead and also Install the client VM at this point.
 
-### Network
+[](### Network)
 - It's a good idea to set up a static ip address to access the server though SSH.
 - To do this, use this command sudo nano /etc/netplan/00-installer-config.yaml
 - Add your network configuration as the example bellow:
