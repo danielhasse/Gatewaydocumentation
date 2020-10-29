@@ -81,7 +81,7 @@ sudo systemctl start named
 sudo systemctl stop named
 sudo systemctl restart named
 ```
-##### Configuring Forwarders
+#### Configuring Forwarders
 
 Go to the file
 ```
@@ -114,7 +114,7 @@ options {
         listen-on-v6 { any; };
 };
 ```
-###### Configure a zone transfer file
+#### Configure a zone transfer file
 
 Go to the file
 ```
@@ -135,7 +135,7 @@ zone "daniel.sysninja" {
      file "/etc/bind/db.daniel";
 };
 ```
-##### Configure a new record for your Zone
+#### Configure a new record for your Zone
 
 Open the file "db.local" fill your record information and save as a new file, in this case I save it as "db.daniel"
 
@@ -295,7 +295,7 @@ cache_dir ufs /var/spool/squid 100 16 256
 #danielk acl network
 acl danielknetwork src 10.0.0.0/24
 ```
-Adding a denied website:
+- Adding a denied website:
 ```
 #denied website
 acl blacklist dstdomain .neverssl.com
@@ -307,7 +307,7 @@ http_access allow danielknetwork
 ```
 Tip: Add the statment before the "http_access deny all"
 
--Save you file and now restart the service
+- Save you file and now restart the service
 ```
 sudo systemctl restart squid
 ```
