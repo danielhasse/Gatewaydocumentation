@@ -265,7 +265,7 @@ COMMIT
 ```
 Now you can verify that your client can access the internet.
 
-## Proxying server - SQUID
+[## Proxying server - SQUID]
 
 - First download SQUID
 ```
