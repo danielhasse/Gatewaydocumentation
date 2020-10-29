@@ -230,15 +230,67 @@ You can also allow or deny protocols and ports
 ```
 sudo ufw allow ssh
 sudo ufw deny ssh
+sudo ufw allow 22
+```
+To view a list of applications that are running and that can be referenced by name
+```
+sudo ufw app list
 ```
 - In this case I want to allow protocol tcp on port 80 (This will be important when NAT is in place) and I don't want my client to connect though ssh.
 
 #### Activating IP Mascarating and NAT so client can access web though the server.
 
+Edit the ufw file to accept DEFAULT_FORWARD_POLICY:
+```
+sudo nano /etc/default/ufw
+```
+```
+DEFAULT_FORWARD_POLICY="ACCEPT"
+```
+Now edit the before.rules files and add the rule in the begginng of the file, go to /etc/ufw/before.rules:
+```
+sudo nano /etc/ufw/before.rules
+```
+```
+# Nat tables rules
+*nat
 
+:POSTROUTING ACCEPT [0:0]
+#portforwarding
 
+#Forward trafiic from ens38 through ens33
+-A POSTROUTING -s 10.0.0.0/24 -o ens33 -j MASQUERADE
+
+COMMIT
+```
+Now you can verify that your client can access the internet.
 
 ## Proxying server - SQUID
+
+- First download SQUID
+```
+sudo apt install squid
+```
+- Now before make a copy and edit ownership of the squid.conf file 
+```
+sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.original
+sudo chmod a-w /etc/squid/squid.conf.original
+```
+- To configure the server as a transparent proxy server go to:
+```
+sudo nano /etc/squid/squid.conf
+```
+- You can opt to change the port of SQUID
+```
+http_port 8888
+```
+Note: Remember to add this port to your firewall rule.
+- In the file find the cache_dir and uncomment. If you want it's possible to increase the cache values:
+```
+# Uncomment and adjust the following to add a disk cache directory.
+cache_dir ufs /var/spool/squid 100 16 256
+```
+
 
 
 
