@@ -1,4 +1,4 @@
-# Gatewayd Services - Ubuntu Server 20.04
+# Gateway Services - Ubuntu Server 20.04
 Documentation on how to set DNS, DHCP, Firewall, NAT and Caching services on Ubuntu 20.04
 Note: This installation was done on VMWare, But the configuration files will work for any install.
 
@@ -290,7 +290,33 @@ Note: Remember to add this port to your firewall rule.
 # Uncomment and adjust the following to add a disk cache directory.
 cache_dir ufs /var/spool/squid 100 16 256
 ```
+- Now you need to add the acl allowing access to your network. Can be use to deny access to certain websites as well. Search for acl and add yours after the acl rules:
+```
+#danielk acl network
+acl danielknetwork src 10.0.0.0/24
+```
+Adding a denied website:
+```
+#denied website
+acl blacklist dstdomain .neverssl.com
+```
+- Now find the http_access to apply your rules:
+```
+http_access deny blacklist
+http_access allow danielknetwork
+```
+Tip: Add the statment before the "http_access deny all"
 
+-Save you file and now restart the service
+```
+sudo systemctl restart squid
+```
+Then check the status with:
+```
+sudo systemctl status squid
+```
+If everything is correct now you have a server with DNS, DCHP, Firewall rules, NAT and proxy for your clients.
 
+Thannk you!
 
 
