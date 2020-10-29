@@ -32,7 +32,7 @@ sudo apt upgrade
 ```
 - Go ahead and also Install the client VM at this point.
 
-[](### Network)
+### Network
 - It's a good idea to set up a static ip address to access the server though SSH.
 - To do this, use this command sudo nano /etc/netplan/00-installer-config.yaml
 - Add your network configuration as the example bellow:
@@ -265,7 +265,7 @@ COMMIT
 ```
 Now you can verify that your client can access the internet.
 
-[## Proxying server - SQUID]
+## Proxying server - SQUID
 
 - First download SQUID
 ```
@@ -317,6 +317,6 @@ sudo systemctl status squid
 ```
 If everything is correct now you have a server with DNS, DCHP, Firewall rules, NAT and proxy for your clients.
 
-Thannk you!
+_Thannk you!_
 
 
