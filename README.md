@@ -317,7 +317,7 @@ sudo systemctl status squid
 ```
 If everything is correct now you have a server with DNS, DCHP, Firewall rules, NAT and proxy for your clients.
 
-All of the examples files are attached to thios repo. :) 
+All of the examples files are attached to thios repo.
 
 _Thannk you!_
 
