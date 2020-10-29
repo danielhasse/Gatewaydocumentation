@@ -191,8 +191,52 @@ subnet 10.0.0.0 netmask 255.255.255.0 {
   option domain-name-servers 10.0.0.250, 8.8.8.8;
   option domain-name "daniel";
 ```
+Now just restart the service and verify that your client received a ip address.
 
-## Firewall
+## Firewall & NAT
+
+- First step is to activate "ufw" to allow or deny applications from accesing your server
+- To Activate use the folling command:
+```
+sudo ufw enable
+```
+to check the firewall rules:
+```
+sudo ufw status
+```
+It must diplay your rules. On this case there are some rules already in place.
+```
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22                         ALLOW       Anywhere
+53                         ALLOW       Anywhere
+80/tcp                     ALLOW       Anywhere
+22/tcp                     DENY        10.0.0.10
+22/tcp                     ALLOW       192.168.0.30
+8888/tcp                   ALLOW       Anywhere
+22 (v6)                    ALLOW       Anywhere (v6)
+53 (v6)                    ALLOW       Anywhere (v6)
+80/tcp (v6)                ALLOW       Anywhere (v6)
+8888/tcp (v6)              ALLOW       Anywhere (v6)
+```
+You can add rules to allow or block machines with:
+```
+sudo ufw allow 10.0.0.10
+sudo ufw deny 10.0.0.10
+```
+You can also allow or deny protocols and ports
+```
+sudo ufw allow ssh
+sudo ufw deny ssh
+```
+- In this case I want to allow protocol tcp on port 80 (This will be important when NAT is in place) and I don't want my client to connect though ssh.
+
+#### Activating IP Mascarating and NAT so client can access web though the server.
+
+
+
 
 ## Proxying server - SQUID
 
