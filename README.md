@@ -165,6 +165,33 @@ ns      IN      A       10.0.0.250
 
 ## DHCP
 
+- Install DHCP to provide ip addresses for your client
+```
+sudo apt install isc-dhcp-server
+```
+#### To check the status of the service
+```
+sudo systemctl status isc-dhcp-server
+```
+#### To activate, deactivate and restart the service
+```
+sudo systemctl start isc-dhcp-server
+sudo systemctl stop isc-dhcp-server
+sudo systemctl restart isc-dhcp-server
+```
+#### Configure DHCP range
+Go to dhcpd.conf file and add the following statement
+```
+sudo nano /etc/dhcp/dhcp.conf
+```
+```
+subnet 10.0.0.0 netmask 255.255.255.0 {
+  range 10.0.0.100 10.0.0.200;
+  option routers 10.0.0.250;
+  option domain-name-servers 10.0.0.250, 8.8.8.8;
+  option domain-name "daniel";
+```
+
 ## Firewall
 
 ## Proxying server - SQUID
