@@ -12,11 +12,9 @@ On this environment there are two machines, the server and a client machine (in 
 
 ## Requirements
 
-- Ubuntu Server 20.04
-- https://ubuntu.com/download/server
+- Ubuntu Server 20.04.01 LTE use this link -> <https://ubuntu.com/download/server>
 
-- Ubuntu Desktop 20.04.1 LTE
-- https://ubuntu.com/download/desktop
+- Ubuntu Desktop 20.04.1 LTE use this link -> <https://ubuntu.com/download/desktop>
 
 - The server needs to have two NIC cards attached.
 
@@ -34,8 +32,8 @@ sudo apt upgrade
 ```
 - Go ahead and also Install the client VM at this point.
 
-### 3. Network
-- It is a good idea to set up a static ip address to be able to access the server though ssh.
+### Network
+- It's a good idea to set up a static ip address to access the server though SSH.
 - To do this, use this command sudo nano /etc/netplan/00-installer-config.yaml
 - Add your network configuration as the example bellow:
 
@@ -77,12 +75,93 @@ sudo apt install bind9 dnsutils
 ```
 sudo systemctl status named
 ```
-#### To activate and deactivate the service
+#### To activate, deactivate and restart the service
 ```
 sudo systemctl start named
 sudo systemctl stop named
+sudo systemctl restart named
 ```
-Go to the config files to 
+##### Configuring Forwarders
+
+Go to the file
+```
+sudo nano /etc/bind/named.conf.options
+```
+and add 8.8.8.8 (google.com) as forwarder:
+```
+options {
+        directory "/var/cache/bind";
+
+        // If there is a firewall between you and nameservers you want
+        // to talk to, you may need to fix the firewall to allow multiple
+        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+        // If your ISP provided one or more IP addresses for stable
+        // nameservers, you probably want to use them as forwarders.
+        // Uncomment the following block, and insert the addresses replacing
+        // the all-0's placeholder.
+
+        // forwarders {
+        //      8.8.8.8;
+        // };
+
+        //========================================================================
+        // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //========================================================================
+        dnssec-validation auto;
+
+        listen-on-v6 { any; };
+};
+```
+###### Configure a zone transfer file
+
+Go to the file
+```
+sudo nano /etc/bind/named.conf.local
+```
+and add a zone at the end like the example bellow (in this case my zone is called "daniel.sysninja"
+```
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "daniel.sysninja" {
+     type master;
+     file "/etc/bind/db.daniel";
+};
+```
+##### Configure a new record for your Zone
+
+Open the file "db.local" fill your record information and save as a new file, in this case I save it as "db.daniel"
+
+Example bellow:
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604590
+@       IN      SOA     daniel.sysninja. root.danielsysninja.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      daniel.sysninja.
+ns      IN      A       10.0.0.250
+@       IN      A       1.1.1.1
+*       IN      A       10.0.0.250
+```
+- Make sure to add a wildcard so it can find anything ending with your record
+
+- After doing all the changes you can use the command to restart the service "named"
+
+
 
 ## DHCP
 
