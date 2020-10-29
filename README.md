@@ -1,4 +1,4 @@
-# Gatewayd Services in Ubuntu Server 20.04
+# Gatewayd Services - Ubuntu Server 20.04
 Documentation on how to set DNS, DHCP, Firewall, NAT and Caching services on Ubuntu 20.04
 Note: This installation was done on VMWare, But the configuration files will work for any install.
 
@@ -12,19 +12,15 @@ On this environment there are two machines, the server and a client machine (in 
 
 ## Requirements
 
--Ubuntu Server 20.04
--Ubuntu Desktop 20.04
+- Ubuntu Server 20.04
+- https://ubuntu.com/download/server
 
--The server needs to have two NIC cards attached.
+- Ubuntu Desktop 20.04.1 LTE
+- https://ubuntu.com/download/desktop
 
-### Intalation of Server
+- The server needs to have two NIC cards attached.
 
-### 1. Download
-- Grab a copy of Ubuntu server 20.04 
-- Use this link 
-https://ubuntu.com/download/server
-
-### 2. Install on VMWare
+### Install on VMWare
 - Create a new VM and Install the Ubuntu Server. 
 - Create an account to access ubuntu server
 - Install SSH service right on the installation page
